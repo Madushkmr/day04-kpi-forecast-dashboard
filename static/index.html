@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>KPI Forecasting &amp; Alerting Dashboard</title>
+<link rel="stylesheet" href="style.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+</head>
+<body>
+  <header>
+    <h1>KPI Forecasting &amp; Alerting Dashboard</h1>
+    <p class="subtitle">Day 4 of a daily AI-app series (BI focus) &middot; Flask + SQLite + Chart.js</p>
+  </header>
+
+  <main>
+    <section class="controls">
+      <label>
+        Metric
+        <select id="metric-select"></select>
+      </label>
+      <label>
+        Forecast method
+        <select id="method-select">
+          <option value="holt_linear">Holt linear (trend-adaptive)</option>
+          <option value="linear_regression">Linear regression (OLS trend)</option>
+          <option value="moving_average">Moving average (baseline)</option>
+        </select>
+      </label>
+      <label>
+        Horizon (days)
+        <input id="horizon-input" type="number" min="3" max="30" value="14" />
+      </label>
+      <button id="refresh-btn">Refresh forecasts &amp; alerts</button>
+      <span id="status"></span>
+    </section>
+
+    <section class="chart-card">
+      <canvas id="kpi-chart" height="90"></canvas>
+    </section>
+
+    <section class="alerts-card">
+      <h2>Alerts <span class="hint">(actuals that fell outside a backtested forecast band)</span></h2>
+      <table id="alerts-table">
+        <thead>
+          <tr>
+            <th>Date</th><th>Metric</th><th>Actual</th><th>Forecast</th>
+            <th>Expected range</th><th>Severity</th><th>Method</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <p id="no-alerts" class="hint" style="display:none">No alerts for this metric yet — click "Refresh forecasts &amp; alerts".</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>Synthetic data. Part of a daily build series moving from a single-script anomaly detector (Day 1) toward multi-component, persistent-storage BI apps.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
